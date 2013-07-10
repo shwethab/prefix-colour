@@ -17,7 +17,7 @@ Expires: January 11, 2014                                  Cisco Systems
 
 
                        DHCPv6 class based prefix
-                draft-bhandari-dhc-class-based-prefix-04
+                draft-bhandari-dhc-class-based-prefix-05
 
 Abstract
 
