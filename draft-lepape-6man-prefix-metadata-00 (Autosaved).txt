@@ -272,7 +272,7 @@ Internet-Draft       IPv6 Prefix Meta-data and Usage           July 2013
       offers this information during prefix delegation
 
    o  Home/Mobile gateway - Learns or determines characteristic of the
-      prefix and propagates it along with prefix delegation. e.g.
+      prefix and propogates it along with prefix delegation. e.g.
 
 
 
@@ -281,7 +281,7 @@ Le Pape, et al.         Expires January 12, 2014                [Page 5]
 Internet-Draft       IPv6 Prefix Meta-data and Usage           July 2013
 
 
-      Determines if the prefix is locally anchored or learns the prefix
+      determines if the prefix is locally anchored or learns the prefix
       meta-data from the ISP prefix delegation server and includes this
       information in prefix delegation to endpoints
 
@@ -291,12 +291,12 @@ Internet-Draft       IPv6 Prefix Meta-data and Usage           July 2013
 
    o  Prefix selection policy - Either embedded in the application/
       endpoint or learnt from a server that helps choose the prefix with
-      specific characteristic for the application based on predetermined
+      specific charateristic for the application based on predetermined
       service agreement between the application/endpoint/application
       service provider and network service provider
 
    o  Applications - That can utilize the prefix with specific
-      characteristic for enhanced application user experience e.g.  On
+      characteristic for enhanced application user experience e.g. on
       demand video application, by choosing the prefix with appropriate
       prefix selection policy while connecting and delivering the
       application over the network
@@ -304,11 +304,11 @@ Internet-Draft       IPv6 Prefix Meta-data and Usage           July 2013
    The prefix meta data consists of following attributes:
 
    o  Prefix property - Well defined universally understood information
-      about the prefix e.g.  Whether a prefix can provide Internet
-      reachability, if the prefix offers application specific Internet
+      about the prefix e.g. whether a prefix can provide internet
+      reachablility, if the prefix offers application specific internet
       service level, if the prefix usage is free/charged, if the prefix
       offers security guarantees etc.  This is maintained as a global
-      registry as defined in Section 4.1.
+      regitry as defined in Section 4.1.
 
    o  Prefix colour - conveys information of the prefix that is of
       relevance to the network where the prefix is provisioned and
@@ -317,7 +317,7 @@ Internet-Draft       IPv6 Prefix Meta-data and Usage           July 2013
       as a 16 bit numerical value to express this information.
 
    This meta-data can be further extended to have more attributes e.g.
-   Administrative domain of the prefix.
+   administrative domain of the prefix.
 
 
 
@@ -365,7 +365,7 @@ Internet-Draft       IPv6 Prefix Meta-data and Usage           July 2013
 3.1.  Prefix meta-data propogation
 
    The prefix meta-data can be delivered using DHCPv6 prefix delegation
-   and address allocation as elaborated in
+   and address allocation as ellaborated in
    [I-D.bhandari-dhc-class-based-prefix] or via IPv6 Neighbour discovery
    (ND) as defined in [I-D.korhonen-6man-prefix-properties].
 
@@ -374,7 +374,7 @@ Internet-Draft       IPv6 Prefix Meta-data and Usage           July 2013
    Applications supporting multiple prefixes obtain the prefixes from
    the host kernel along with their meta-data.
 
-   The policy can then be contained either locally (e.g.  If the
+   The policy can then be contained either locally (e.g. if the
    application is intended only for use within a specific network,
    linked to a particular ISP comes prepackages with prefix colour to
    use), or be contained on a distant server.  The mechanism used to
@@ -406,22 +406,22 @@ Internet-Draft       IPv6 Prefix Meta-data and Usage           July 2013
 
 3.4.  Default Address Selection
 
-   The 'prefix property' learnt by the network stack is only used as a
+   The 'prefix property' leant by the network stack is only used as a
    hint.  It does not affect the existing [RFC6724] automatically.  A
    specific rule to host's policy table has to be inserted by an
    application or some daemon process.  Alternatively, an application
    can express its address property preferences through the socket API
-   extensions which means the socket library or middle ware has to
-   modify [RFC6724] policy table or algorithm.  The 'prefix properties'
-   flags MAY define the prefix preference for an IP stack that
-   understands the extensions defined in this specification.  The IP
-   stack SHOULD use the properties preferences to supersede [RFC6724]
-   Source Address Selection Rule 8 when selecting a default source
-   address among multiple choices and an application has not explicitly
-   indicate what kind of source address it prefers.  As the 'prefix
-   colour' is of significance to the application colour selection needs
-   to be driven by the application and hence no default colour based
-   address selection is required.
+   extensions which means the socket library or middleware has to modify
+   [RFC6724] policy table or algorithm.  The 'prefix properties' flags
+   MAY define the prefix preference for an IP stack that understands the
+   extensions defined in this specification.  The IP stack SHOULD use
+   the properties preferences to supersede [RFC6724] Source Address
+   Selection Rule 8 when selecting a default source address among
+   multiple choices and an application has not explicitly indicate what
+   kind of source address it prefers.  As the 'prefix colour' is of
+   significance to the application colour selection needs to be driven
+   by the application and hence no default colour based address
+   selection is required.
 
 3.5.  Scope of Prefix Colour
 
@@ -437,7 +437,7 @@ Internet-Draft       IPv6 Prefix Meta-data and Usage           July 2013
 3.5.1.  Local scoping
 
    A locally scoped colour is a value which is selected by the network
-   and application providers with no central registry.  In a multi homed
+   and application providers with no central registry.  In a multihomed
    network, this may result in two providers selecting the same colour
    for different behaviors.  A colour translation could be performed to
    ensure unique colour at the device that connects to multiple
@@ -468,7 +468,7 @@ Internet-Draft       IPv6 Prefix Meta-data and Usage           July 2013
 3.5.3.  Global scoping
 
    A globally scoped colour avoids the need for responding to
-   collisions.  This can be achieved by disambiguating the colour by
+   collisions.  This can be acheived by disambiguating the colour by
    attaching the domain that provisions the colour to the prefix meta-
    data or by assigning colours from a global registry that comes with
    the overhead of maintaining such a registry.
@@ -696,7 +696,7 @@ Internet-Draft       IPv6 Prefix Meta-data and Usage           July 2013
       coloured homenet to still have access to IPv6.  However, those
       hosts may use prefixes for the wrong purposes.
 
-   o  Those hosts can receive only colourless prefixes.  This ensures
+   o  Those hosts can receive only colourless prefixes. this ensures
       that a prefix will not be used for the wrong purpose.  However,
       hosts in a fully coloured environment will not get access to IPv6.
       This can however be what the ISP originally intended, for example
@@ -709,7 +709,7 @@ A.1.3.  Configuring applications
    Applications supporting multiple prefixes obtain the prefixes from
    the host kernel, along with their colour.
 
-   The policy can be contained either in a local database (e.g.  If the
+   The policy can be contained either in a local database (e.g. if the
    application is intended only for use within a specific network,
    linked to a particular ISP), or be contained on a distant server.
 
@@ -730,9 +730,9 @@ Internet-Draft       IPv6 Prefix Meta-data and Usage           July 2013
 
 
    When the application is started, it sends the available prefixes and
-   their colour to the video provider server which answers with a wild
-   card URI videos.example.com associated to colour 50.  In this example
-   application it receives:
+   their colour to the video provider server which answers with a
+   wildcard URI videos.example.com associated to colour 50.  In this
+   example application it receives:
 
    <?xml version="1.0" encoding="UTF-8"?>
    <mappings>
@@ -754,7 +754,7 @@ Internet-Draft       IPv6 Prefix Meta-data and Usage           July 2013
 
    Example: While the application is browsing the video list, it is
    using www.example.com, and thus the colourless prefix.  However as
-   soon as a video is chosen, it starts streaming from
+   soon as a video is choosen, it starts streaming from
    videos.example.com, and asks to connect to host videos.example.com
    with colour 50, indicating that it wishes to use the coloured prefix.
 
@@ -770,7 +770,7 @@ A.1.4.  Android DHCPv6
    in the success of the WiFi connection, so as to support IPv6 only
    networks.
 
-   This client configures the IPv6 addresses using calls to IP address,
+   This client configures the IPv6 addresses using calls to ip address,
    which is modified to support the addition of a class option to set
    the prefix colour.
 
