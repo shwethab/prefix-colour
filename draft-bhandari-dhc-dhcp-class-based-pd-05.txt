@@ -1,10 +1,11 @@
 
 
 
+
 Internet Engineering Task Force                              S. Bhandari
 Internet-Draft                                               G. Halwasia
 Intended status: Standards Track                           S. Gundavelli
-Expires: January 11, 2014                                  Cisco Systems
+Expires: January 16, 2014                                  Cisco Systems
                                                                  H. Deng
                                                             China Mobile
                                                              L. Thiebaut
@@ -13,7 +14,7 @@ Expires: January 11, 2014                                  Cisco Systems
                                                           Renesas Mobile
                                                                I. Farrer
                                                      Deutsche Telekom AG
-                                                           July 10, 2013
+                                                           July 15, 2013
 
 
                        DHCPv6 class based prefix
@@ -22,45 +23,40 @@ Expires: January 11, 2014                                  Cisco Systems
 Abstract
 
    This document introduces options to communicate property and
-   associate metadata with prefixes.  It extends DHCPv6 prefix
-   delegation and address allocation using the metadata for selection of
-   prefixes and addresses.
+   associate meta data with prefixes.  It extends DHCPv6 prefix
+   delegation and address allocation using the meta data for selection
+   of prefixes and addresses.
 
-Status of this Memo
+Status of This Memo
 
-   This Internet-Draft is submitted to IETF in full conformance with the
+   This Internet-Draft is submitted in full conformance with the
    provisions of BCP 78 and BCP 79.
 
    Internet-Drafts are working documents of the Internet Engineering
-   Task Force (IETF), its areas, and its working groups.  Note that
-   other groups may also distribute working documents as Internet-
-   Drafts.
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
 
    Internet-Drafts are draft documents valid for a maximum of six months
    and may be updated, replaced, or obsoleted by other documents at any
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   The list of current Internet-Drafts can be accessed at
-   http://www.ietf.org/ietf/1id-abstracts.txt.
-
-   The list of Internet-Draft Shadow Directories can be accessed at
-   http://www.ietf.org/shadow.html.
-
-   This Internet-Draft will expire on January 11, 2014.
-
-
-
-
-Bhandari, et al.        Expires January 11, 2014                [Page 1]
-
-Internet-Draft          DHCPv6 class based prefix              July 2013
-
+   This Internet-Draft will expire on January 16, 2014.
 
 Copyright Notice
 
    Copyright (c) 2013 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
+
+
+
+
+
+Bhandari, et al.        Expires January 16, 2014                [Page 1]
+
+Internet-Draft          DHCPv6 class based prefix              July 2013
+
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
@@ -70,101 +66,50 @@ Copyright Notice
    to this document.  Code Components extracted from this document must
    include Simplified BSD License text as described in Section 4.e of
    the Trust Legal Provisions and are provided without warranty as
-   described in the BSD License.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Bhandari, et al.        Expires January 11, 2014                [Page 2]
-
-Internet-Draft          DHCPv6 class based prefix              July 2013
-
+   described in the Simplified BSD License.
 
 Table of Contents
 
-   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . .  4
-     1.1.  Motivation . . . . . . . . . . . . . . . . . . . . . . . .  4
-       1.1.1.  Mobile networks  . . . . . . . . . . . . . . . . . . .  5
-       1.1.2.  Home networks  . . . . . . . . . . . . . . . . . . . .  5
-     1.2.  Terminology  . . . . . . . . . . . . . . . . . . . . . . .  6
-     1.3.  Requirements Language  . . . . . . . . . . . . . . . . . .  6
-   2.  Overview . . . . . . . . . . . . . . . . . . . . . . . . . . .  6
-     2.1.  Prefix Property and Class Options  . . . . . . . . . . . .  6
-     2.2.  Consideration for different DHCPv6 entities  . . . . . . .  8
-       2.2.1.  Requesting Router Behavior for IA_PD allocation  . . .  8
-       2.2.2.  Delegating Router Behavior for IA_PD allocation  . . .  9
-       2.2.3.  DHCPv6 Client Behavior for IA_NA allocation  . . . . . 10
-       2.2.4.  DHCPv6 Server Behavior for IA_NA allocation  . . . . . 10
-     2.3.  Usage  . . . . . . . . . . . . . . . . . . . . . . . . . . 11
-       2.3.1.  Class based prefix and IA_NA allocation  . . . . . . . 11
-       2.3.2.  Class based prefix and IA_PD allocation  . . . . . . . 11
-       2.3.3.  Class based prefix and SLAAC . . . . . . . . . . . . . 11
-       2.3.4.  Class based prefix and applications  . . . . . . . . . 12
-   3.  Example Application  . . . . . . . . . . . . . . . . . . . . . 12
-     3.1.  Mobile gateway example . . . . . . . . . . . . . . . . . . 12
-       3.1.1.  Class based prefix delegation  . . . . . . . . . . . . 13
-       3.1.2.  IPv6 address assignment from class based prefix  . . . 14
-     3.2.  Homenet Example  . . . . . . . . . . . . . . . . . . . . . 15
-       3.2.1.  Class based prefix delegation to the HGW . . . . . . . 16
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
+     1.1.  Motivation  . . . . . . . . . . . . . . . . . . . . . . .   3
+       1.1.1.  Mobile networks . . . . . . . . . . . . . . . . . . .   4
+       1.1.2.  Home networks . . . . . . . . . . . . . . . . . . . .   4
+     1.2.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   5
+     1.3.  Requirements Language . . . . . . . . . . . . . . . . . .   5
+   2.  Overview  . . . . . . . . . . . . . . . . . . . . . . . . . .   5
+     2.1.  Prefix Property and Class Options . . . . . . . . . . . .   5
+     2.2.  Consideration for different DHCPv6 entities . . . . . . .   6
+       2.2.1.  Requesting Router Behavior for IA_PD allocation . . .   7
+       2.2.2.  Delegating Router Behavior for IA_PD allocation . . .   8
+       2.2.3.  DHCPv6 Client Behavior for IA_NA allocation . . . . .   9
+       2.2.4.  DHCPv6 Server Behavior for IA_NA allocation . . . . .   9
+     2.3.  Usage . . . . . . . . . . . . . . . . . . . . . . . . . .  10
+       2.3.1.  Class based prefix and IA_NA allocation . . . . . . .  10
+       2.3.2.  Class based prefix and IA_PD allocation . . . . . . .  10
+       2.3.3.  Class based prefix and SLAAC  . . . . . . . . . . . .  10
+       2.3.4.  Class based prefix and applications . . . . . . . . .  11
+   3.  Example Application . . . . . . . . . . . . . . . . . . . . .  11
+     3.1.  Mobile gateway example  . . . . . . . . . . . . . . . . .  11
+       3.1.1.  Class based prefix delegation . . . . . . . . . . . .  13
+       3.1.2.  IPv6 address assignment from class based prefix . . .  13
+     3.2.  Homenet Example . . . . . . . . . . . . . . . . . . . . .  14
+       3.2.1.  Class based prefix delegation to the HGW  . . . . . .  15
        3.2.2.  IPv6 Assignment to Homenet hosts using stateful
-               DHCPv6 . . . . . . . . . . . . . . . . . . . . . . . . 17
-   4.  Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 18
-   5.  Contributors . . . . . . . . . . . . . . . . . . . . . . . . . 18
-   6.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 18
-     6.1.  OPTION_PREFIX_PROPERTY values  . . . . . . . . . . . . . . 18
-   7.  Security Considerations  . . . . . . . . . . . . . . . . . . . 19
-   8.  Change History (to be removed prior to publication as an
-       RFC) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
-   9.  References . . . . . . . . . . . . . . . . . . . . . . . . . . 20
-     9.1.  Normative References . . . . . . . . . . . . . . . . . . . 20
-     9.2.  Informative References . . . . . . . . . . . . . . . . . . 21
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 21
+               DHCPv6  . . . . . . . . . . . . . . . . . . . . . . .  16
+   4.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  17
+   5.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  17
+   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  17
+     6.1.  OPTION_PREFIX_PROPERTY values . . . . . . . . . . . . . .  17
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .  18
+   8.  Change History (to be removed prior to publication as an RFC)  18
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  19
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  19
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  20
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  20
 
 
 
-
-
-
-
-
-
-
-
-
-Bhandari, et al.        Expires January 11, 2014                [Page 3]
+Bhandari, et al.        Expires January 16, 2014                [Page 2]
 
 Internet-Draft          DHCPv6 class based prefix              July 2013
 
@@ -177,26 +122,26 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
    Example: In a mobile network a mobile device can be assigned a prefix
    from its home network and another from the visiting network that it
    is attached to.  Another example is a prefix may provide free
-   internet access without offering any quality of service guarantees
+   Internet access without offering any quality of service guarantees
    while another prefix may be charged along with providing quality of
    service guarantees for network service access.  A prefix can have
-   well defined properties that is universal and have a metadata
+   well defined properties that is universal and have a meta data
    associated with it that communicates its local significance.  The
-   properties and metadata of prefix will be relevant for prefix
+   properties and meta data of prefix will be relevant for prefix
    delegation, source address selection as elaborated in the subsequent
    sections.
 
    This document defines OPTION_PREFIX_PROPERTY option that communicates
-   property of the prefix that is universally understood.This document
-   defines OPTION_PREFIX_CLASS option to communicate metadata of the
+   property of the prefix that is universally understood.  This document
+   defines OPTION_PREFIX_CLASS option to communicate meta data of the
    prefix that communicates the prefix's local significance.
 
    This document discusses usage of OPTION_PREFIX_CLASS to request and
-   select prefixes with specific metadata via IA_PD and IA_NA as defined
-   in [RFC3633] and[RFC3315] respectively.This document defines the
-   behavior of the DHCPv6 server, the DHCPv6 prefix requesting router
-   and the DHCPv6 client to use OPTION_PREFIX_CLASS option for
-   requesting and selecting prefixes and addresses.
+   select prefixes with specific meta data via IA_PD and IA_NA as
+   defined in [RFC3633] and[RFC3315] respectively.  This document
+   defines the behavior of the DHCPv6 server, the DHCPv6 prefix
+   requesting router and the DHCPv6 client to use OPTION_PREFIX_CLASS
+   option for requesting and selecting prefixes and addresses.
 
    The network address can be configured via DHCPv6 as defined in
    [RFC3315] or via Stateless Address Autoconfiguration (SLAAC) as
@@ -204,7 +149,7 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
    provided via DHCPv6 or via IPv6 Router Advertisement (RA).  The
    information provided in the options defined in this document
    OPTION_PREFIX_PROPERTY and OPTION_PREFIX_CLASS can be used for source
-   address selection.  Communicated property and metadata information
+   address selection.  Communicated property and meta data information
    about the prefix via IPv6 Router Advertisement (RA) will be dealt
    with in separate document [I-D.korhonen-6man-prefix-properties].
 
@@ -220,7 +165,7 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
 
 
-Bhandari, et al.        Expires January 11, 2014                [Page 4]
+Bhandari, et al.        Expires January 16, 2014                [Page 3]
 
 Internet-Draft          DHCPv6 class based prefix              July 2013
 
@@ -239,7 +184,7 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
    The delegated prefixes when seen from the mobile router perspective
    appear to be like any other prefix, but each prefixes have different
-   metadata referred to as "Prefix Color" in the mobile networks.  Some
+   meta data referred to as "Prefix Color" in the mobile networks.  Some
    delegated prefixes may be topologically local and some may be remote
    prefixes anchored on a global anchor, but available to the local
    anchor by means of tunnel setup in the network between the local and
@@ -270,13 +215,13 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
    o  Using source prefix to identify the service class / traffic type
       that is being transported.  The source prefix may then reliably be
       used as a parameter for differentiated services or other purposes.
-      E.g.  [I-D.jiang-v6ops-semantic-prefix]
+      E.g. [I-D.jiang-v6ops-semantic-prefix]
 
 
 
 
 
-Bhandari, et al.        Expires January 11, 2014                [Page 5]
+Bhandari, et al.        Expires January 16, 2014                [Page 4]
 
 Internet-Draft          DHCPv6 class based prefix              July 2013
 
@@ -304,7 +249,6 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
    document are to be interpreted as described in RFC 2119 [RFC2119].
 
-
 2.  Overview
 
    This section defines prefix property and prefix class options in
@@ -315,6 +259,8 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
 2.1.  Prefix Property and Class Options
 
+   The format of the DHCPv6 prefix property and prefix class options are
+   shown below.
 
 
 
@@ -331,32 +277,28 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
 
 
-
-Bhandari, et al.        Expires January 11, 2014                [Page 6]
+Bhandari, et al.        Expires January 16, 2014                [Page 5]
 
 Internet-Draft          DHCPv6 class based prefix              July 2013
 
 
-   The format of the DHCPv6 prefix property and prefix class options are
-   shown below.
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |      OPTION_PREFIX_PROPERTY   |         option-length(2)      |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |             Properties        |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-    0                   1                   2                   3
-    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    |      OPTION_PREFIX_PROPERTY   |         option-length(2)      |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    |             Properties        |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
-    option-code:       OPTION_PREFIX_PROPERTY (TBD1)
-    option-length:     2
-    Properties:        16 bits  maintained as
-                       OPTION_PREFIX_PROPERTY in
-                       IANA registered namespace.
-                       Each value in the registry represents a property.
-                       Multiple properties can be represented by bitwise
-                       ORing of the individual property values in this
-                       field.
+      option-code:       OPTION_PREFIX_PROPERTY (TBD1)
+      option-length:     2
+      Properties:        16 bits  maintained as
+                         OPTION_PREFIX_PROPERTY in
+                         IANA registered namespace.
+                         Each value in the registry represents a property.
+                         Multiple properties can be represented by bitwise
+                         ORing of the individual property values in this
+                         field.
 
 
 
@@ -365,10 +307,9 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
    The individual property are maintained in OPTION_PREFIX_PROPERTY
    values enumeration explained in Section Section 6.1.
 
-   Along with the OPTION_PREFIX_PROPERTY a metadata associated with the
+   Along with the OPTION_PREFIX_PROPERTY a meta data associated with the
    prefix that is of local relevance is communicated using
    OPTION_PREFIX_CLASS defined below:
-
 
       0                   1                   2                   3
       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -386,14 +327,16 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
                             Prefix Class Option
 
+2.2.  Consideration for different DHCPv6 entities
 
 
-Bhandari, et al.        Expires January 11, 2014                [Page 7]
+
+
+
+Bhandari, et al.        Expires January 16, 2014                [Page 6]
 
 Internet-Draft          DHCPv6 class based prefix              July 2013
 
-
-2.2.  Consideration for different DHCPv6 entities
 
    The model of operation of communicating prefixes to be used by a
    DHCPv6 server is as follows.  A requesting router requests prefix(es)
@@ -439,16 +382,20 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
       classes that the DHCPv6 server can provide to this requesting
       Router.
 
-   The requesting router parses the OPTION_PREFIX_CLASS option in the
-   OPTION_IAPREFIX option area of the corresponding IA_PD Prefix option
 
 
 
-Bhandari, et al.        Expires January 11, 2014                [Page 8]
+
+
+
+
+Bhandari, et al.        Expires January 16, 2014                [Page 7]
 
 Internet-Draft          DHCPv6 class based prefix              July 2013
 
 
+   The requesting router parses the OPTION_PREFIX_CLASS option in the
+   OPTION_IAPREFIX option area of the corresponding IA_PD Prefix option
    in the ADVERTISE message.  The Requesting router MUST then include
    all or subset of the received class based prefix(es) in the REQUEST
    message so that it will be responsible for the prefixes selected.
@@ -490,20 +437,25 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
    router MUST in this case also fall back to the behavior specified in
    [RFC3633].
 
+
+
+
+
+
+
+
+
+Bhandari, et al.        Expires January 16, 2014                [Page 8]
+
+Internet-Draft          DHCPv6 class based prefix              July 2013
+
+
    If both delegating and requesting routers support class-based prefix
    allocation, but the delegating router cannot offer prefixes for any
    other reason, it MUST respond to requesting router with appropriate
    status code as specified in [RFC3633].  For e.g., if no prefixes are
    available in the specified class then the delegating router MUST
    include the status code NoPrefixAvail in the response message.
-
-
-
-
-Bhandari, et al.        Expires January 11, 2014                [Page 9]
-
-Internet-Draft          DHCPv6 class based prefix              July 2013
-
 
    In addition if the delegating router has additional property
    associated with the prefix it will be provided in
@@ -546,20 +498,18 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
    (as defined in [RFC3315]) in the response message.  If the DHCP
    server cannot offer addresses for any other reason, it MUST respond
    to client with appropriate status code as specified in [RFC3315].  In
+
+
+
+Bhandari, et al.        Expires January 16, 2014                [Page 9]
+
+Internet-Draft          DHCPv6 class based prefix              July 2013
+
+
    addition if the server has additional property associated with the
    prefix by means of configuration or learnt from DHCPv6 prefix
    delegation or derived via any other means it MUST be sent as
    OPTION_PREFIX_PROPERTY option.
-
-
-
-
-
-
-Bhandari, et al.        Expires January 11, 2014               [Page 10]
-
-Internet-Draft          DHCPv6 class based prefix              July 2013
-
 
 2.3.  Usage
 
@@ -603,19 +553,20 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
 2.3.3.  Class based prefix and SLAAC
 
+
+
+
+
+Bhandari, et al.        Expires January 16, 2014               [Page 10]
+
+Internet-Draft          DHCPv6 class based prefix              July 2013
+
+
    DHCPv6 IA_NA and IPv6 Stateless Address Autoconfiguration (SLAAC as
    defined in [RFC4862]) are two ways by IPv6 addresses can be
    dynamically assigned to end hosts.  Making SLAAC class aware is
    outside the scope of this document, it is specified in
    [I-D.korhonen-6man-prefix-properties].
-
-
-
-
-Bhandari, et al.        Expires January 11, 2014               [Page 11]
-
-Internet-Draft          DHCPv6 class based prefix              July 2013
-
 
 2.3.4.  Class based prefix and applications
 
@@ -625,7 +576,6 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
    data structure and interface for source address selection used by
    application to choose source prefix with specific property and class
    in a host is beyond the scope of this document.
-
 
 3.  Example Application
 
@@ -653,7 +603,7 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
    address, providing service to the wired network for wireless nodes.
 
    Access Router (AR) An IP router residing in an access network and
-   connected to one or more Acess Point(AP)s.  An AR offers IP
+   connected to one or more Access Point(AP)s. An AR offers IP
    connectivity to MNs.
 
    WLAN controller (WLC) The entity that provides the centralized
@@ -663,12 +613,7 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
 
 
-
-
-
-
-
-Bhandari, et al.        Expires January 11, 2014               [Page 12]
+Bhandari, et al.        Expires January 16, 2014               [Page 11]
 
 Internet-Draft          DHCPv6 class based prefix              July 2013
 
@@ -716,19 +661,24 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
                      Figure 1: Example mobile network
 
+
+
+
+
+
+
+
+
+Bhandari, et al.        Expires January 16, 2014               [Page 12]
+
+Internet-Draft          DHCPv6 class based prefix              July 2013
+
+
 3.1.1.  Class based prefix delegation
 
    The Access Aggregation Gateway requests for Prefix delegation from
    Mobile gateway and associates the prefix received with class "global-
    anchor"(1).  The Access Aggregation Gateway is preconfigured to
-
-
-
-Bhandari, et al.        Expires January 11, 2014               [Page 13]
-
-Internet-Draft          DHCPv6 class based prefix              July 2013
-
-
    provide prefixes from the following classes: "global-anchor" (1),
    "local-breakout"(2), "guest"(3).  It has a preconfigured policy to
    advertise prefixes to requesting routers and mobile nodes based on
@@ -772,19 +722,19 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
    When the Access Aggregation Gateway receives a DHCPv6 SOLICIT
    requesting IA_NA from MNs through WLC and it has a preconfigured
-   profile to provide both local-breakout internet access and global-
-   anchor, it offers an IPv6 address from the class "local-breakout" (2)
-   and "global-anchor"(1).  For MN1 it advertises 3001:2::1 and
-   3001:1::2 as the IPv6 address in OPTION_IAADDR in response to the
-   IA_NA request.  Applications within MN1 can choose to use the
 
 
 
-Bhandari, et al.        Expires January 11, 2014               [Page 14]
+Bhandari, et al.        Expires January 16, 2014               [Page 13]
 
 Internet-Draft          DHCPv6 class based prefix              July 2013
 
 
+   profile to provide both local-breakout Internet access and global-
+   anchor, it offers an IPv6 address from the class "local-breakout" (2)
+   and "global-anchor"(1).  For MN1 it advertises 3001:2::1 and
+   3001:1::2 as the IPv6 address in OPTION_IAADDR in response to the
+   IA_NA request.  Applications within MN1 can choose to use the
    appropriate prefix based on the mobility enabled or local-breakout
    property attached to the prefix based on source address selection
    policy.
@@ -825,18 +775,13 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
    o  On demand Video Application: Application hosted on the IPv6 PC
 
-   o  Application Central: Application server hosted in the internet
+   o  Application Central: Application server hosted in the Internet
       that the On demand Video Application communicates with to access
       VOD service
 
 
 
-
-
-
-
-
-Bhandari, et al.        Expires January 11, 2014               [Page 15]
+Bhandari, et al.        Expires January 16, 2014               [Page 14]
 
 Internet-Draft          DHCPv6 class based prefix              July 2013
 
@@ -892,7 +837,7 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
 
 
-Bhandari, et al.        Expires January 11, 2014               [Page 16]
+Bhandari, et al.        Expires January 16, 2014               [Page 15]
 
 Internet-Draft          DHCPv6 class based prefix              July 2013
 
@@ -948,7 +893,7 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
 
 
-Bhandari, et al.        Expires January 11, 2014               [Page 17]
+Bhandari, et al.        Expires January 16, 2014               [Page 16]
 
 Internet-Draft          DHCPv6 class based prefix              July 2013
 
@@ -963,7 +908,6 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
        will use the options and procedure defined in
        [I-D.korhonen-6man-prefix-properties]
 
-
 4.  Acknowledgements
 
    The authors would like to acknowledge review and guidance received
@@ -971,12 +915,10 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
    Hemant Singh, Mark Townsley, Ole Troan, Bernie Volz, Maciek
    Konstantynowicz
 
-
 5.  Contributors
 
    Authors would like to thank contributions to use cases and text for
    various sections received from Sindhura Bandi.
-
 
 6.  IANA Considerations
 
@@ -1002,14 +944,15 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
    4.   0x0008 The prefix is assigned on an interface that provides
         security guarantees
 
+   5.   0x0010 Usage is charged
 
 
-Bhandari, et al.        Expires January 11, 2014               [Page 18]
+
+
+Bhandari, et al.        Expires January 16, 2014               [Page 17]
 
 Internet-Draft          DHCPv6 class based prefix              July 2013
 
-
-   5.   0x0010 Usage is charged
 
    6.   0x0020 The prefix provides multi-homed redundancy
 
@@ -1034,13 +977,11 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
    16.  0x8000 Unassigned
 
-
 7.  Security Considerations
 
    Security issues related to DHCPv6 which are described in section 23
    of [RFC3315] and [RFC3633] apply for scenarios mentioned in this
    draft as well.
-
 
 8.  Change History (to be removed prior to publication as an RFC)
 
@@ -1058,14 +999,16 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
    b.  Added IANA section to request managing of registry for the
        enumerated values
 
+   c.  Added initial values for the class
 
 
-Bhandari, et al.        Expires January 11, 2014               [Page 19]
+
+
+
+Bhandari, et al.        Expires January 16, 2014               [Page 18]
 
 Internet-Draft          DHCPv6 class based prefix              July 2013
 
-
-   c.  Added initial values for the class
 
    d.  Added section for applications to select address with a specific
        property
@@ -1090,7 +1033,6 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
    b.  Added additional properties and reference for SLAAC/ND procedure
 
-
 9.  References
 
 9.1.  Normative References
@@ -1102,33 +1044,31 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
    [I-D.jiang-v6ops-semantic-prefix]
               Jiang, S., Sun, Q., Farrer, I., and Y. Bo, "A Framework
-              for Semantic IPv6 Prefix",
-              draft-jiang-v6ops-semantic-prefix-03 (work in progress),
-              May 2013.
+              for Semantic IPv6 Prefix", draft-jiang-v6ops-semantic-
+              prefix-03 (work in progress), May 2013.
 
    [I-D.korhonen-6man-prefix-properties]
               Korhonen, J., Patil, B., Gundavelli, S., Seite, P., and D.
-              Liu, "IPv6 Prefix Properties",
-              draft-korhonen-6man-prefix-properties-02 (work in
-              progress), July 2013.
+              Liu, "IPv6 Prefix Properties", draft-korhonen-6man-prefix-
+              properties-02 (work in progress), July 2013.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-
-
-
-Bhandari, et al.        Expires January 11, 2014               [Page 20]
-
-Internet-Draft          DHCPv6 class based prefix              July 2013
-
-
               Requirement Levels", BCP 14, RFC 2119, March 1997.
 
    [RFC2460]  Deering, S. and R. Hinden, "Internet Protocol, Version 6
               (IPv6) Specification", RFC 2460, December 1998.
 
+
+
+
+Bhandari, et al.        Expires January 16, 2014               [Page 19]
+
+Internet-Draft          DHCPv6 class based prefix              July 2013
+
+
    [RFC2865]  Rigney, C., Willens, S., Rubens, A., and W. Simpson,
-              "Remote Authentication Dial In User Service (RADIUS)",
-              RFC 2865, June 2000.
+              "Remote Authentication Dial In User Service (RADIUS)", RFC
+              2865, June 2000.
 
    [RFC3315]  Droms, R., Bound, J., Volz, B., Lemon, T., Perkins, C.,
               and M. Carney, "Dynamic Host Configuration Protocol for
@@ -1162,20 +1102,8 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
               June 1999.
 
    [RFC3552]  Rescorla, E. and B. Korver, "Guidelines for Writing RFC
-              Text on Security Considerations", BCP 72, RFC 3552,
-              July 2003.
-
-
-
-
-
-
-
-
-Bhandari, et al.        Expires January 11, 2014               [Page 21]
-
-Internet-Draft          DHCPv6 class based prefix              July 2013
-
+              Text on Security Considerations", BCP 72, RFC 3552, July
+              2003.
 
 Authors' Addresses
 
@@ -1185,8 +1113,13 @@ Authors' Addresses
    Bangalore, KARNATAKA  560 087
    India
 
-   Phone:
    Email: shwethab@cisco.com
+
+
+
+Bhandari, et al.        Expires January 16, 2014               [Page 20]
+
+Internet-Draft          DHCPv6 class based prefix              July 2013
 
 
    Gaurav Halwasia
@@ -1224,32 +1157,33 @@ Authors' Addresses
    Email: laurent.thiebaut@alcatel-lucent.com
 
 
-
-
-
-
-Bhandari, et al.        Expires January 11, 2014               [Page 22]
-
-Internet-Draft          DHCPv6 class based prefix              July 2013
-
-
    Jouni Korhonen
    Renesas Mobile
    Linnoitustie 6
-   FIN-02600 Espoo,
+   FIN-02600 Espoo
    Finland
 
-   Phone:
    Email: jouni.nospam@gmail.com
+
+
+
+
+
+
+
+
+
+Bhandari, et al.        Expires January 16, 2014               [Page 21]
+
+Internet-Draft          DHCPv6 class based prefix              July 2013
 
 
    Ian Farrer
    Deutsche Telekom AG
    GTN-FM4, Landgrabenweg 151
-   Bonn 53227,
+   Bonn 53227
    Bonn 53227
 
-   Phone:
    Email: ian.farrer@telekom.de
 
 
@@ -1284,5 +1218,15 @@ Internet-Draft          DHCPv6 class based prefix              July 2013
 
 
 
-Bhandari, et al.        Expires January 11, 2014               [Page 23]
-
+
+
+
+
+
+
+
+
+
+
+
+Bhandari, et al.        Expires January 16, 2014               [Page 22]

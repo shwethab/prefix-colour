@@ -209,7 +209,7 @@
       </address>
     </author>
 
-    <date day="10" month="July" year="2013" />
+    <date day="14" month="July" year="2013" />
 
     <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
          in the current day for you. If only the current year is specified, xml2rfc will fill 
@@ -238,8 +238,8 @@
 
     <abstract>
       <t>This document introduces options to communicate property and
-      associate metadata with prefixes. It extends DHCPv6 prefix delegation
-      and address allocation using the metadata for selection of prefixes and
+      associate meta data with prefixes. It extends DHCPv6 prefix delegation
+      and address allocation using the meta data for selection of prefixes and
       addresses.</t>
     </abstract>
   </front>
@@ -251,24 +251,24 @@
       can have a specific property and purpose associated with it. Example: In
       a mobile network a mobile device can be assigned a prefix from its home
       network and another from the visiting network that it is attached to.
-      Another example is a prefix may provide free internet access without
+      Another example is a prefix may provide free Internet access without
       offering any quality of service guarantees while another prefix may be
       charged along with providing quality of service guarantees for network
       service access. A prefix can have well defined properties that is
-      universal and have a metadata associated with it that communicates its
-      local significance. The properties and metadata of prefix will be
+      universal and have a meta data associated with it that communicates its
+      local significance. The properties and meta data of prefix will be
       relevant for prefix delegation, source address selection as elaborated
       in the subsequent sections.</t>
 
       <t>This document defines OPTION_PREFIX_PROPERTY option that communicates
-      property of the prefix that is universally understood.This document
-      defines OPTION_PREFIX_CLASS option to communicate metadata of the prefix
-      that communicates the prefix's local significance.</t>
+      property of the prefix that is universally understood. This document
+      defines OPTION_PREFIX_CLASS option to communicate meta data of the
+      prefix that communicates the prefix's local significance.</t>
 
       <t>This document discusses usage of OPTION_PREFIX_CLASS to request and
-      select prefixes with specific metadata via IA_PD and IA_NA as defined in
-      <xref target="RFC3633"></xref> and<xref target="RFC3315"></xref>
-      respectively.This document defines the behavior of the DHCPv6 server,
+      select prefixes with specific meta data via IA_PD and IA_NA as defined
+      in <xref target="RFC3633"></xref> and<xref target="RFC3315"></xref>
+      respectively. This document defines the behavior of the DHCPv6 server,
       the DHCPv6 prefix requesting router and the DHCPv6 client to use
       OPTION_PREFIX_CLASS option for requesting and selecting prefixes and
       addresses.</t>
@@ -279,7 +279,7 @@
       information of a prefix can be provided via DHCPv6 or via IPv6 Router
       Advertisement (RA). The information provided in the options defined in
       this document OPTION_PREFIX_PROPERTY and OPTION_PREFIX_CLASS can be used
-      for source address selection. Communicated property and metadata
+      for source address selection. Communicated property and meta data
       information about the prefix via IPv6 Router Advertisement (RA) will be
       dealt with in separate document <xref
       target="I-D.korhonen-6man-prefix-properties"></xref>.</t>
@@ -305,7 +305,7 @@
 
           <t>The delegated prefixes when seen from the mobile router
           perspective appear to be like any other prefix, but each prefixes
-          have different metadata referred to as "Prefix Color" in the mobile
+          have different meta data referred to as "Prefix Color" in the mobile
           networks. Some delegated prefixes may be topologically local and
           some may be remote prefixes anchored on a global anchor, but
           available to the local anchor by means of tunnel setup in the
@@ -407,7 +407,7 @@
         OPTION_PREFIX_PROPERTY values enumeration explained in Section <xref
         target="IANA_PREFIX_PROPERTIES"></xref>.</t>
 
-        <t>Along with the OPTION_PREFIX_PROPERTY a metadata associated with
+        <t>Along with the OPTION_PREFIX_PROPERTY a meta data associated with
         the prefix that is of local relevance is communicated using
         OPTION_PREFIX_CLASS defined below:</t>
 
@@ -666,7 +666,7 @@
         nodes.</t>
 
         <t>Access Router (AR) An IP router residing in an access network and
-        connected to one or more Acess Point(AP)s. An AR offers IP
+        connected to one or more Access Point(AP)s. An AR offers IP
         connectivity to MNs.</t>
 
         <t>WLAN controller (WLC) The entity that provides the centralized
@@ -766,7 +766,7 @@
 
           <t>When the Access Aggregation Gateway receives a DHCPv6 SOLICIT
           requesting IA_NA from MNs through WLC and it has a preconfigured
-          profile to provide both local-breakout internet access and
+          profile to provide both local-breakout Internet access and
           global-anchor, it offers an IPv6 address from the class
           "local-breakout" (2) and "global-anchor"(1). For MN1 it advertises
           3001:2::1 and 3001:1::2 as the IPv6 address in OPTION_IAADDR in
@@ -815,7 +815,7 @@
             <t>On demand Video Application: Application hosted on the IPv6
             PC</t>
 
-            <t>Application Central: Application server hosted in the internet
+            <t>Application Central: Application server hosted in the Internet
             that the On demand Video Application communicates with to access
             VOD service</t>
           </list></t>
@@ -1060,6 +1060,8 @@
 
     <references title="Normative References">
       <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+
+      <!--&I-D.lepape-6man-prefix-metadata;-->
 
       &RFC2119;
 
